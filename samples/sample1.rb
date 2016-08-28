@@ -6,25 +6,23 @@ KNUPLOT_SAMPLE_JSON_STR = '
 {
     "xlabel": "x",
     "ylabel": "y",
-    "xrange": "[0:15]",
-    "yrange": "[0:15]",
+    "xrange": "[0:10]",
+    "yrange": "[0:10]",
     "set_command_list": [
         "size ratio 1",
-        "terminal postscript eps enhanced color",
         "grid"
     ],
     "data_set_list": [
-        {"title": "hoge1", "x": [1, 2, 3], "y": [1, 2, 3]},
-        {"title": "hoge2", "x": [4, 5, 6, 5], "y": [4, 5, 6, 7], "with": "lp"},
+        {"title": "dots", "x": [7, 8.3, 7.5], "y": [2.1, 1, 3], "with": "points pointsize 3.0"},
+        {"title": "lp", "x": [4, 5, 6, 5], "y": [4, 5, 6, 7], "with": "lp"},
         {"title": "xyerror_lines", "x": [1,2,3],"y": [1,2,3],"xdelta":[0.1,0.1,0.1],"ydelta":[0.2,0.2,0.2], "with": "xyerrorlines"}
     ]
 }
 '.freeze
 
 if $0 == __FILE__
-  hash = ARGV[0] ? JSON(File.read(ARGV[0])) : JSON(KNUPLOT_SAMPLE_JSON_STR)
-  hash[:output] = ARGV[1] ? ARGV[1] : File.expand_path('../hoge.eps', __FILE__)
-  p hash
+  hash = JSON.parse(KNUPLOT_SAMPLE_JSON_STR, :symbolize_names => true)
+  hash[:set_command_list] << "terminal postscript eps enhanced color"
+  hash[:output] = File.expand_path('../sample1.eps', __FILE__)
   knuplot(hash)
 end
-
