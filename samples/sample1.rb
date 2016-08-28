@@ -23,8 +23,8 @@ KNUPLOT_SAMPLE_JSON_STR = '
 
 if $0 == __FILE__
   hash = ARGV[0] ? JSON(File.read(ARGV[0])) : JSON(KNUPLOT_SAMPLE_JSON_STR)
+  hash[:output] = ARGV[1] ? ARGV[1] : File.expand_path('../hoge.eps', __FILE__)
   p hash
-  filepath = ARGV[1] ? ARGV[1] : File.expand_path('../hoge.eps', __FILE__)
-  knuplot(filepath, hash)
+  knuplot(hash)
 end
 
